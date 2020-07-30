@@ -9,8 +9,10 @@ import tiki.com.vn.base.BaseActivity
 import androidx.recyclerview.widget.MergeAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import tiki.com.vn.data.BannerEntity
+import tiki.com.vn.data.QuickLinkEntity
 import tiki.com.vn.other.ViewHolderListener
 import tiki.com.vn.ui.banner.BannerAdapter
+import tiki.com.vn.ui.quick_link.QuickLinkAdapter
 
 class MainActivity : BaseActivity() {
 
@@ -18,6 +20,7 @@ class MainActivity : BaseActivity() {
     private var isRefresh: Boolean = false
     private val mMergeAdapter = MergeAdapter()
     private val mBannerAdapter by lazy { BannerAdapter() }
+    private val mQuickLinkAdapter by lazy { QuickLinkAdapter() }
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
@@ -35,6 +38,11 @@ class MainActivity : BaseActivity() {
             mMergeAdapter.addAdapter(0, mBannerAdapter)
         }
 
+        mQuickLinkAdapter.run {
+            setOnClickListener(listenerQuick)
+            mMergeAdapter.addAdapter(1, mQuickLinkAdapter)
+        }
+
         recyclerHome.apply {
             setHasFixedSize(true)
             setItemViewCacheSize(20)
@@ -43,8 +51,7 @@ class MainActivity : BaseActivity() {
         }
 
         swipeRefresh.setOnRefreshListener {
-            isRefresh = true
-            initData()
+            //initData()
             swipeRefresh.isRefreshing = false
         }
     }
@@ -62,19 +69,14 @@ class MainActivity : BaseActivity() {
             _repoBanner.observe(this@MainActivity, Observer {
                 if(it != null){
                     Log.d("Logger", "banner "+ it.size)
-                    if(isRefresh){
-                        mBannerAdapter.refreshItem(it)
-                        isRefresh = false
-                    }else{
-                        mBannerAdapter.addData(it)
-                    }
-
+                    mBannerAdapter.addData(it)
                 }
             })
 
             _repoQuickLink.observe(this@MainActivity, Observer {
                 if(it != null){
                     Log.d("Logger", "QuickLink "+ it.size)
+                    mQuickLinkAdapter.addData(it)
                 }
             })
 
@@ -90,5 +92,12 @@ class MainActivity : BaseActivity() {
         override fun itemClicked(data: BannerEntity, positon: Int) {
             Log.d("Logger", "click banner ${data.id}")
         }
+    }
+
+    private val listenerQuick = object :ViewHolderListener<QuickLinkEntity>{
+        override fun itemClicked(data: QuickLinkEntity, positon: Int) {
+            Log.d("Logger", "click quick Llink ${data.title}")
+        }
+
     }
 }

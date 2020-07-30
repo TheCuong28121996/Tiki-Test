@@ -34,15 +34,18 @@ class BannerHolder internal constructor(view: View, listener: ViewHolderListener
                 )
                 layoutParams.gravity = Gravity.CENTER
                 imageView.layoutParams = layoutParams
+
                 Glide.with(itemView.context)
                     .load(item.image_url)
                     .centerCrop()
                     .into(imageView)
+
                 imageView.setOnClickListener{
                     sendListener(item)
                 }
                 itemView.viewFlipper.addView(imageView)
             }
         }
+        itemView.viewFlipper.visibility = View.VISIBLE
     }
 }

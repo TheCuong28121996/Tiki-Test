@@ -79,6 +79,12 @@ abstract class BaseAdapter<T, O>: RecyclerView.Adapter<BaseHolder<T, O>>() {
         notifyDataSetChanged()
     }
 
+    open fun refreshItem(listItems: Collection<T>){
+        this.dataSource.clear()
+        this.dataSource.addAll(listItems)
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
         return this.dataSource.size
     }

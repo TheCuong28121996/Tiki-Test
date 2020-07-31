@@ -1,50 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeRefresh"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.MainActivity">
 
-   <androidx.constraintlayout.widget.ConstraintLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-       <androidx.constraintlayout.widget.Guideline
-           android:id="@+id/gl1"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           app:layout_constraintGuide_percent="0.25"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_home" />
 
-       <androidx.constraintlayout.widget.Guideline
-           android:id="@+id/gl2"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           app:layout_constraintGuide_percent="0.16"/>
-       
-       <ImageView
-           android:id="@+id/imgAppbar"
-           android:layout_width="0dp"
-           android:layout_height="0dp"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintBottom_toTopOf="@id/gl1"
-           android:src="@drawable/background_home"/>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:background="@android:color/transparent"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
 
-       <androidx.recyclerview.widget.RecyclerView
-           android:id="@+id/recyclerHome"
-           android:layout_width="0dp"
-           android:layout_height="0dp"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintBottom_toBottomOf="parent"
-           app:layout_constraintTop_toBottomOf="@id/gl2"
-           app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
 
-   </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    <TextView
+                        android:id="@+id/imgIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Tiki"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:id="@+id/vCartAndInbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:orientation="horizontal"
+                        android:paddingStart="3dp"
+                        android:paddingLeft="3dp"
+                        android:paddingEnd="12dp"
+                        android:paddingRight="12dp">
+
+                        <ImageButton
+                            android:id="@+id/imgChat"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_baseline_chat_bubble_outline_24" />
+
+                        <ImageButton
+                            android:id="@+id/imgCart"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_baseline_add_shopping_cart_24" />
+                    </LinearLayout>
+
+                </androidx.appcompat.widget.Toolbar>
+
+                <FrameLayout
+                    android:id="@+id/frameSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="bottom">
+
+                   <androidx.cardview.widget.CardView
+                       android:id="@+id/cardSearch"
+                       android:layout_width="match_parent"
+                       android:layout_height="40dp"
+                       app:cardCornerRadius="5dp"
+                       app:cardElevation="0dp">
+
+                      <RelativeLayout
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent">
+
+                          <ImageView
+                              android:id="@+id/imgSearch"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:src="@drawable/ic_baseline_search_24"
+                              android:layout_centerVertical="true"
+                              android:layout_marginStart="20dp"/>
+
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Bạn tìm gì hôm nay.."
+                              android:layout_toEndOf="@id/imgSearch"
+                              android:layout_centerVertical="true"
+                              android:layout_marginStart="10dp"/>
+
+                      </RelativeLayout>
+                   </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerHome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

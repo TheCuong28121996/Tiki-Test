@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.item_adapter_banner.view.*
 import tiki.com.vn.base.BaseHolder
 import tiki.com.vn.data.BannerEntity
@@ -37,7 +39,7 @@ class BannerHolder internal constructor(view: View, listener: ViewHolderListener
 
                 Glide.with(itemView.context)
                     .load(item.image_url)
-                    .centerCrop()
+                    .transform(CenterCrop(), RoundedCorners(10))
                     .into(imageView)
 
                 imageView.setOnClickListener{

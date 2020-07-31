@@ -8,8 +8,8 @@
         android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         android:autoStart="true"
         android:flipInterval="2000"/>
 

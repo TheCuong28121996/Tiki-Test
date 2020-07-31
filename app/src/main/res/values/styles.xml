@@ -16,4 +16,12 @@
     <style name="AppTheme.ProgressBar">
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay"/>
+
+    <style name="AppTheme.PopupOverlay">
+        <item name="android:colorBackground">#b2000000</item>
+        <item name="android:itemTextAppearance">@android:color/white</item>
+        <item name="overlapAnchor">false</item>
+    </style>
 </resources>

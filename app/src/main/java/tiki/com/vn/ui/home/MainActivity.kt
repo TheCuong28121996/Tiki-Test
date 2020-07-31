@@ -4,10 +4,11 @@ import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.MergeAdapter
+import com.google.android.material.appbar.AppBarLayout
+import kotlinx.android.synthetic.main.activity_main.*
 import tiki.com.vn.R
 import tiki.com.vn.base.BaseActivity
-import androidx.recyclerview.widget.MergeAdapter
-import kotlinx.android.synthetic.main.activity_main.*
 import tiki.com.vn.data.BannerEntity
 import tiki.com.vn.data.QuickLinkEntity
 import tiki.com.vn.other.ViewHolderListener
@@ -27,6 +28,17 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
+        appBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+                if (Math.abs(verticalOffset)-appBarLayout!!.getTotalScrollRange() == 0) {
+                    frameSearch.setPadding(25, 10, 200, 0)
+                }
+                else {
+                    frameSearch.setPadding(25, 10, 25, 0)
+                }
+            }
+        })
+
         if (!this::viewModel.isInitialized) {
             viewModel = ViewModelProviders.of(this)
                 .get(MainViewModel::class.java)
@@ -50,9 +62,9 @@ class MainActivity : BaseActivity() {
             adapter = mMergeAdapter
         }
 
-        swipeRefresh.setOnRefreshListener {
+        swRefresh.setOnRefreshListener {
             //initData()
-            swipeRefresh.isRefreshing = false
+            swRefresh.isRefreshing = false
         }
     }
 

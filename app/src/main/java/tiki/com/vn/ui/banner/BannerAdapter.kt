@@ -6,9 +6,11 @@ import tiki.com.vn.base.BaseAdapter
 import tiki.com.vn.base.BaseHolder
 import tiki.com.vn.data.BannerEntity
 
-class BannerAdapter: BaseAdapter<List<BannerEntity>, BannerEntity>() {
+class BannerAdapter : BaseAdapter<List<BannerEntity>, BannerEntity>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseHolder<List<BannerEntity>, BannerEntity> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            BaseHolder<List<BannerEntity>, BannerEntity> {
+
         return BannerHolder(
             createView(R.layout.item_adapter_banner, parent), getListener()
         )

@@ -60,6 +60,11 @@ abstract class BaseAdapter<T, O>: RecyclerView.Adapter<BaseHolder<T, O>>() {
         }
     }
 
+    open fun clear(){
+        this.dataSource.clear()
+        notifyDataSetChanged()
+    }
+
     open fun getListItem(): Collection<T> {
         return dataSource
     }
@@ -71,18 +76,6 @@ abstract class BaseAdapter<T, O>: RecyclerView.Adapter<BaseHolder<T, O>>() {
     override fun onBindViewHolder(holder: BaseHolder<T, O>, position: Int) {
         val item = getItemAt(position)
         holder.bindData(item)
-    }
-
-    open fun refreshItem(listItems: T){
-        this.dataSource.clear()
-        this.dataSource.add(listItems)
-        notifyDataSetChanged()
-    }
-
-    open fun refreshItem(listItems: Collection<T>){
-        this.dataSource.clear()
-        this.dataSource.addAll(listItems)
-        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

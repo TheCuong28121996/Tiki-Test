@@ -13,15 +13,16 @@ import tiki.com.vn.data.BannerEntity
 import tiki.com.vn.data.QuickLinkEntity
 import tiki.com.vn.other.ViewHolderListener
 import tiki.com.vn.ui.banner.BannerAdapter
+import tiki.com.vn.ui.flash_deal.FlashDealAdapter
 import tiki.com.vn.ui.quick_link.QuickLinkAdapter
 
 class MainActivity : BaseActivity() {
 
     private lateinit var viewModel: MainViewModel
-    private var isRefresh: Boolean = false
     private val mMergeAdapter = MergeAdapter()
     private val mBannerAdapter by lazy { BannerAdapter() }
     private val mQuickLinkAdapter by lazy { QuickLinkAdapter() }
+    private val mFlashDealAdapter by lazy { FlashDealAdapter() }
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
@@ -55,6 +56,10 @@ class MainActivity : BaseActivity() {
             mMergeAdapter.addAdapter(1, mQuickLinkAdapter)
         }
 
+        mFlashDealAdapter.run {
+            mMergeAdapter.addAdapter(2, mFlashDealAdapter)
+        }
+
         recyclerHome.apply {
             setHasFixedSize(true)
             setItemViewCacheSize(20)
@@ -69,6 +74,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
+
         viewModel.getBanner()
 
         viewModel.getQuickLink()
@@ -81,6 +87,7 @@ class MainActivity : BaseActivity() {
             _repoBanner.observe(this@MainActivity, Observer {
                 if(it != null){
                     Log.d("Logger", "banner "+ it.size)
+                    mBannerAdapter.clear()
                     mBannerAdapter.addData(it)
                 }
             })
@@ -95,6 +102,8 @@ class MainActivity : BaseActivity() {
             _repoFlashDeal.observe(this@MainActivity, Observer {
                 if(it != null){
                     Log.d("Logger", "FlashDeal "+ it.size)
+                    mFlashDealAdapter.clear()
+                    mFlashDealAdapter.addData(it)
                 }
             })
         }
@@ -110,6 +119,5 @@ class MainActivity : BaseActivity() {
         override fun itemClicked(data: QuickLinkEntity, positon: Int) {
             Log.d("Logger", "click quick Llink ${data.title}")
         }
-
     }
 }

@@ -9,5 +9,6 @@ data class FlashDealEntity(
     val special_from_date: Double,
     val from_date: String = "",
     val special_to_date: Double,
-    val progress: ProgressEntity
+    val progress: ProgressEntity,
+    val product: ProductEntity
 )

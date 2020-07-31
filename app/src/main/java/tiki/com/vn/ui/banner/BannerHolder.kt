@@ -13,23 +13,25 @@ import tiki.com.vn.base.BaseHolder
 import tiki.com.vn.data.BannerEntity
 import tiki.com.vn.other.ViewHolderListener
 
-class BannerHolder internal constructor(view: View, listener: ViewHolderListener<BannerEntity>): BaseHolder<List<BannerEntity>, BannerEntity>(view, listener) {
+class BannerHolder internal constructor(view: View, listener: ViewHolderListener<BannerEntity>) :
+    BaseHolder<List<BannerEntity>, BannerEntity>(view, listener) {
 
     override fun bindData(data: List<BannerEntity>?) {
         if (data != null) {
             showReponData(data)
-        }else{
+        } else {
             itemView.viewFlipper.visibility = View.GONE
         }
     }
 
-    private fun showReponData(data: List<BannerEntity>){
-        if(itemView.viewFlipper != null){
+    private fun showReponData(data: List<BannerEntity>) {
+        if (itemView.viewFlipper != null) {
             itemView.viewFlipper.setInAnimation(itemView.context, android.R.anim.slide_in_left)
             itemView.viewFlipper.setOutAnimation(itemView.context, android.R.anim.slide_out_right)
 
-            for(item in data){
+            for (item in data) {
                 val imageView = ImageView(itemView.context)
+
                 val layoutParams = FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
@@ -42,7 +44,7 @@ class BannerHolder internal constructor(view: View, listener: ViewHolderListener
                     .transform(CenterCrop(), RoundedCorners(10))
                     .into(imageView)
 
-                imageView.setOnClickListener{
+                imageView.setOnClickListener {
                     sendListener(item)
                 }
                 itemView.viewFlipper.addView(imageView)

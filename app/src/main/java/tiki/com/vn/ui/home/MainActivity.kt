@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.MergeAdapter
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.flash_deal_adapter.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import tiki.com.vn.R
 import tiki.com.vn.base.BaseActivity
 import tiki.com.vn.data.BannerEntity
@@ -75,11 +79,15 @@ class MainActivity : BaseActivity() {
 
     override fun initData() {
 
-        viewModel.getBanner()
+//        viewModel.getBanner()
+//
+//        viewModel.getQuickLink()
+//
+//        viewModel.getFlashDeal()
 
-        viewModel.getQuickLink()
-
-        viewModel.getFlashDeal()
+        CoroutineScope(IO).launch {
+            viewModel.getBanerQuickLink()
+        }
     }
 
     override fun startObserve() {

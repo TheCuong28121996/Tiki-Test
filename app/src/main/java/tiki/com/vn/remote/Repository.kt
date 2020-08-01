@@ -1,5 +1,6 @@
 package tiki.com.vn.remote
 
+import android.util.Log
 import tiki.com.vn.base.BaseRepository
 import tiki.com.vn.data.BannerEntity
 import tiki.com.vn.data.FlashDealEntity

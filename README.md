@@ -7,13 +7,13 @@
   - Use MergeAdapter.
 ## 2. Use Coroutine to call api banner + quick link at the same time <h2>
 withContext(IO){
-  val getData = launch{
-  .......
+  val getData = launch{     
+       .......
   }
   getData.join()
   
   async{
-  ........
+       ........
   }.await()
 }
 ## 3. Demo <h2>

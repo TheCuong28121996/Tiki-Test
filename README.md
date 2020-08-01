@@ -6,6 +6,7 @@
   - Handling by each holder.
   - Use MergeAdapter.
 ## 2. Use Coroutine to call api banner + quick link at the same time <h2>
+```kotlin
 withContext(IO){
   val getData = launch{     
        .......
@@ -16,6 +17,7 @@ withContext(IO){
        ........
   }.await()
 }
+```
 ## 3. Demo <h2>
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/qgbeX20IOVQ/0.jpg)](https://www.youtube.com/watch?v=qgbeX20IOVQ)
 

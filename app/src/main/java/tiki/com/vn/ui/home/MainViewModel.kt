@@ -1,19 +1,15 @@
 package tiki.com.vn.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.withContext
 import tiki.com.vn.base.BaseViewModel
 import tiki.com.vn.data.BannerEntity
 import tiki.com.vn.data.FlashDealEntity
 import tiki.com.vn.data.QuickLinkEntity
 import tiki.com.vn.remote.Repository
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
-import tiki.com.vn.base.BaseRepository
 import tiki.com.vn.data.ResponseData
 import java.lang.Exception
 

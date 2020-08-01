@@ -5,19 +5,6 @@
 [![CollapsingToolbarLayout](https://img.shields.io/badge/CollapsingToolbarLayout-1.1.0-red)](https://material.io/)
 ## 1. Call api Banner + QuickLink parallel <h2>
 [![IMAGE ALT TEXT HERE](https://i.ibb.co/fGXkYrC/tiki.png)
-## 2. Use Coroutine to call api banner + quick link at the same time <h2>
-```kotlin
-withContext(IO){
-  val getData = launch{     
-       .......
-  }
-  getData.join()
-  
-  async{
-       ........
-  }.await()
-}
-```
-## 3. Demo <h2>
+## 2. Demo <h2>
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/qgbeX20IOVQ/0.jpg)](https://www.youtube.com/watch?v=qgbeX20IOVQ)
 

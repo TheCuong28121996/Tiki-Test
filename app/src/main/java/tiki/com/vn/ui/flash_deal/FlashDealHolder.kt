@@ -31,6 +31,6 @@ class FlashDealHolder internal constructor(view: View):
             visibility = View.VISIBLE
         }
 
-        mAdapter.addData(data)
+        mAdapter.addNewItem(data)
     }
 }

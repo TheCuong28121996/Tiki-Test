@@ -1,5 +1,6 @@
 package tiki.com.vn.ui.quick_link
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import kotlinx.android.synthetic.main.item_adapter_quick_link.view.*
@@ -38,7 +39,7 @@ class QuickLinkHolder internal constructor(
             visibility = View.VISIBLE
         }
 
-        mInnerQuickLinkAdapter.addData(data)
+        mInnerQuickLinkAdapter.addNewItem(data)
     }
 
     private val listener = object : ViewHolderListener<QuickLinkEntity> {

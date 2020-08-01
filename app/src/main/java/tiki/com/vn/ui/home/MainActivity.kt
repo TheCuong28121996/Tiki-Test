@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.MergeAdapter
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.flash_deal_adapter.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -52,17 +51,13 @@ class MainActivity : BaseActivity() {
 
         mBannerAdapter.run {
             setOnClickListener(listenerBanner)
-            mMergeAdapter.addAdapter(0, mBannerAdapter)
         }
 
         mQuickLinkAdapter.run {
             setOnClickListener(listenerQuick)
-            mMergeAdapter.addAdapter(1, mQuickLinkAdapter)
         }
 
-        mFlashDealAdapter.run {
-            mMergeAdapter.addAdapter(2, mFlashDealAdapter)
-        }
+        mFlashDealAdapter.run {}
 
         recyclerHome.apply {
             setHasFixedSize(true)
@@ -72,21 +67,15 @@ class MainActivity : BaseActivity() {
         }
 
         swRefresh.setOnRefreshListener {
-            //initData()
+            initData()
             swRefresh.isRefreshing = false
         }
     }
 
     override fun initData() {
 
-//        viewModel.getBanner()
-//
-//        viewModel.getQuickLink()
-//
-//        viewModel.getFlashDeal()
-
         CoroutineScope(IO).launch {
-            viewModel.getBanerQuickLink()
+            viewModel.getData()
         }
     }
 
@@ -95,23 +84,27 @@ class MainActivity : BaseActivity() {
             _repoBanner.observe(this@MainActivity, Observer {
                 if(it != null){
                     Log.d("Logger", "banner "+ it.size)
-                    mBannerAdapter.clear()
-                    mBannerAdapter.addData(it)
+                    mMergeAdapter.removeAdapter(mBannerAdapter)
+                    mBannerAdapter.addNewItem(it)
+                    mMergeAdapter.addAdapter(0, mBannerAdapter)
                 }
             })
 
             _repoQuickLink.observe(this@MainActivity, Observer {
                 if(it != null){
                     Log.d("Logger", "QuickLink "+ it.size)
-                    mQuickLinkAdapter.addData(it)
+                    mMergeAdapter.removeAdapter(mQuickLinkAdapter)
+                    mQuickLinkAdapter.addNewItem(it)
+                    mMergeAdapter.addAdapter(1, mQuickLinkAdapter)
                 }
             })
 
             _repoFlashDeal.observe(this@MainActivity, Observer {
                 if(it != null){
                     Log.d("Logger", "FlashDeal "+ it.size)
-                    mFlashDealAdapter.clear()
-                    mFlashDealAdapter.addData(it)
+                    mMergeAdapter.removeAdapter(mFlashDealAdapter)
+                    mFlashDealAdapter.addNewItem(it)
+                    mMergeAdapter.addAdapter(2, mFlashDealAdapter)
                 }
             })
         }

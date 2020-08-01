@@ -1,6 +1,5 @@
 package tiki.com.vn.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.withContext
 import tiki.com.vn.base.BaseViewModel
@@ -28,17 +27,7 @@ class MainViewModel : BaseViewModel() {
     val _repoFlashDeal: MutableLiveData<List<FlashDealEntity>>
         get() = repoFlashDeal
 
-    fun getBanner() = launchOnUI{
-        val result = repository.getBanner()
-        _repoBanner.value = result.data
-    }
-
-    fun getQuickLink() = launchOnUI{
-        val result = repository.getQuickLink()
-        _repoQuickLink.value = result.data
-    }
-
-    suspend fun getBanerQuickLink(){
+    suspend fun getData(){
         withContext(IO){
 
             val getData = launch{
@@ -58,10 +47,5 @@ class MainViewModel : BaseViewModel() {
                 }
             }.await()
         }
-    }
-
-    fun getFlashDeal() = launchOnUI{
-        val result = repository.getFlashDeal()
-        _repoFlashDeal.value = result.data
     }
 }

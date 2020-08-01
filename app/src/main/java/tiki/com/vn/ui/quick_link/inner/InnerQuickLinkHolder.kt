@@ -37,7 +37,7 @@ class InnerQuickLinkHolder internal constructor(view: View,
             visibility = View.VISIBLE
         }
 
-        mItemQuickLinkAdapter.addData(data)
+        mItemQuickLinkAdapter.addNewItem(data)
     }
 
     private val listener = object : ViewHolderListener<QuickLinkEntity>{

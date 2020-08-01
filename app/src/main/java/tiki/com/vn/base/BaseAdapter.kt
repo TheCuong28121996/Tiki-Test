@@ -3,9 +3,6 @@ package tiki.com.vn.base
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tiki.com.vn.other.ViewHolderListener
 
@@ -23,27 +20,16 @@ abstract class BaseAdapter<T, O>: RecyclerView.Adapter<BaseHolder<T, O>>() {
         return this.listener
     }
 
-    open fun addData(data: Collection<T>) {
-        val size = data.size
-        if (size > 0) {
-            val currentTotal = this.dataSource.size
-            this.dataSource.addAll(data)
-            notifyItemRangeInserted(currentTotal, (currentTotal + size))
-        }
+    open fun addNewItem(data: Collection<T>){
+        this.dataSource.clear()
+        this.dataSource.addAll(data)
+        notifyDataSetChanged()
     }
 
-    open fun addData(data: T) {
+    open fun addNewItem(data: T) {
+        this.dataSource.clear()
         this.dataSource.add(data)
         notifyItemInserted(this.dataSource.size)
-    }
-
-    open fun addData(data: T, position: Int) {
-        var pos = position
-        if (pos < 0) {
-            pos = this.dataSource.size
-        }
-        this.dataSource.add(pos, data)
-        notifyItemChanged(pos)
     }
 
     open fun getItemAt(position: Int): T? {
@@ -53,20 +39,9 @@ abstract class BaseAdapter<T, O>: RecyclerView.Adapter<BaseHolder<T, O>>() {
         return null
     }
 
-    open fun removeItem(position: Int) {
-        if (0 < position && position < this.dataSource.size) {
-            this.dataSource.removeAt(position)
-            notifyItemRemoved(position)
-        }
-    }
-
     open fun clear(){
         this.dataSource.clear()
         notifyDataSetChanged()
-    }
-
-    open fun getListItem(): Collection<T> {
-        return dataSource
     }
 
     fun createView(resource: Int, parent: ViewGroup, attachToRoot: Boolean = false): View {

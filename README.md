@@ -5,6 +5,17 @@
 ## 1. There are two choices <h2>
   - Handling by each holder.
   - Use MergeAdapter.
-## 2. Demo <h2>
+## 2. Use Coroutine to call api banner + quick link at the same time <h2>
+withContext(IO){
+  val getData = launch{
+  .......
+  }
+  getData.join()
+  
+  async{
+  ........
+  }.await()
+}
+## 3. Demo <h2>
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/qgbeX20IOVQ/0.jpg)](https://www.youtube.com/watch?v=qgbeX20IOVQ)
 

@@ -7,9 +7,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.MergeAdapter
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 import tiki.com.vn.R
 import tiki.com.vn.base.BaseActivity
 import tiki.com.vn.data.BannerEntity
@@ -74,9 +71,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData() {
 
-        CoroutineScope(IO).launch {
-            viewModel.getData()
-        }
+        viewModel.getData()
     }
 
     override fun startObserve() {

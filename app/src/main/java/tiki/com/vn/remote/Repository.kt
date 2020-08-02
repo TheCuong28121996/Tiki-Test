@@ -8,15 +8,15 @@ import tiki.com.vn.data.ResponseData
 
 class Repository: BaseRepository() {
 
-    suspend fun getBanner(): ResponseData<List<BannerEntity>> = request {
-        RetrofitClient.reqApi.getBanner()
-    }
-
-    suspend fun getQuickLink(): ResponseData<List<List<QuickLinkEntity>>> = request {
-        RetrofitClient.reqApi.getQuickLink()
-    }
-
-    suspend fun getFlashDeal(): ResponseData<List<FlashDealEntity>> = request {
-        RetrofitClient.reqApi.getFlashDeal()
-    }
+//    suspend fun getBanner(): ResponseData<List<BannerEntity>> = request {
+//        RetrofitClient.reqApi.getBanner()
+//    }
+//
+//    suspend fun getQuickLink(): ResponseData<List<List<QuickLinkEntity>>> = request {
+//        RetrofitClient.reqApi.getQuickLink()
+//    }
+//
+//    suspend fun getFlashDeal(): ResponseData<List<FlashDealEntity>> = request {
+//        RetrofitClient.reqApi.getFlashDeal()
+//    }
 }

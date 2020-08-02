@@ -71,7 +71,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData() {
 
-        viewModel.getData()
+        viewModel.getDataParallely()
     }
 
     override fun startObserve() {

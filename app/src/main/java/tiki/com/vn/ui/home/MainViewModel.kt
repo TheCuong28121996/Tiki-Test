@@ -2,28 +2,21 @@ package tiki.com.vn.ui.home
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import tiki.com.vn.base.BaseViewModel
 import tiki.com.vn.data.BannerEntity
 import tiki.com.vn.data.FlashDealEntity
 import tiki.com.vn.data.QuickLinkEntity
-import tiki.com.vn.remote.Repository
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 import tiki.com.vn.data.ResponseData
+import tiki.com.vn.remote.Repository
 import tiki.com.vn.remote.RetrofitClient
-import java.lang.Exception
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.operators.flowable.FlowableReplay.observeOn
-import tiki.com.vn.utils.DisposableManager
+import tiki.com.vn.utils.Executor
+import java.util.concurrent.atomic.AtomicBoolean
 
 class MainViewModel : BaseViewModel() {
 
-    private val repository = Repository()
     private val repoBanner = MutableLiveData<List<BannerEntity>>()
     private val repoQuickLink = MutableLiveData<List<List<QuickLinkEntity>>>()
     private val repoFlashDeal = MutableLiveData<List<FlashDealEntity>>()
@@ -37,104 +30,83 @@ class MainViewModel : BaseViewModel() {
     val _repoFlashDeal: MutableLiveData<List<FlashDealEntity>>
         get() = repoFlashDeal
 
-    //The function getData() executes getBanner, getQuickLink parallel since they are wrapped within async{}
-    // which returns Deferred<T> and we are using await() method to return the result of individual coroutines created by Async
-//    fun getData() {
-//        viewModelScope.launch {
-//            // A supervisorScope won’t cancel other children when one of them fails
-//            supervisorScope {
-//                val bannerResponse: ResponseData<List<BannerEntity>>?
-//                val quickLinkResponse: ResponseData<List<List<QuickLinkEntity>>>?
-//
-//                val getBanner = async { repository.getBanner() }
-//                val getQuickLink = async { repository.getQuickLink() }
-//
-//                //when a subsequent api call Fails
-//                bannerResponse = try {
-//                    getBanner.await()
-//                } catch (ex: Exception) {
-//                    null
-//                }
-//
-//                //when a subsequent api call Fails
-//                quickLinkResponse = try {
-//                    getQuickLink.await()
-//                } catch (ex: Exception) {
-//                    null
-//                }
-//
-//                // Post data UI
-//                launchOnUI {
-//                    if (bannerResponse != null) {
-//                        _repoBanner.value = bannerResponse.data
-//                    }
-//
-//                    if (quickLinkResponse != null) {
-//                        _repoQuickLink.value = quickLinkResponse.data
-//                    }
-//                }
-//
-//                async {
-//                    val flashDetail = repository.getFlashDeal()
-//                    launchOnUI {
-//                        _repoFlashDeal.value = flashDetail.data
-//                    }
-//                }.await()
-//            }
-//        }
-//    }
+    private fun getBanner() {
+        RetrofitClient.reqApi.getBanner()
+            .enqueue(object : Callback<ResponseData<List<BannerEntity>>>{
 
-    fun getDataParallely() {
-        DisposableManager.add(
-            Observable.zip(
-                RetrofitClient.reqApi.getBanner().subscribeOn(Schedulers.io()),
-                RetrofitClient.reqApi.getQuickLink().subscribeOn(Schedulers.io()),
+                override fun onFailure(call: Call<ResponseData<List<BannerEntity>>>, t: Throwable) {
+                    Log.d("Logger", "error->$t.message)")
+                }
 
-                BiFunction { bannerResponse: ResponseData<List<BannerEntity>>,
-                             quickLinkResponsee: ResponseData<List<List<QuickLinkEntity>>> ->
-                    combineResult(bannerResponse, quickLinkResponsee)
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { result ->
-                        Log.d("Logger", "result->$result")
-                    },
-                    { error ->
-                        Log.d("Logger", "error->$error.message)")
-                    }
-                )
-        )
+                override fun onResponse(
+                    call: Call<ResponseData<List<BannerEntity>>>,
+                    response: Response<ResponseData<List<BannerEntity>>>) {
+
+                   _repoBanner.value = response.body()!!.data
+                }
+
+            })
     }
 
-    private fun combineResult(
-        bannerResponse: ResponseData<List<BannerEntity>>,
-        quickLinkResponse: ResponseData<List<List<QuickLinkEntity>>>) {
+    private fun getQuickLink() {
+        RetrofitClient.reqApi.getQuickLink()
+            .enqueue(object: Callback<ResponseData<List<List<QuickLinkEntity>>>>{
+                override fun onFailure(
+                    call: Call<ResponseData<List<List<QuickLinkEntity>>>>,
+                    t: Throwable
+                ) {
+                    Log.d("Logger", "error->$t.message)")
+                }
 
-        launchOnUI {
-            _repoBanner.value = bannerResponse.data
-            _repoQuickLink.value = quickLinkResponse.data
-        }
+                override fun onResponse(
+                    call: Call<ResponseData<List<List<QuickLinkEntity>>>>,
+                    response: Response<ResponseData<List<List<QuickLinkEntity>>>>
+                ) {
+                    _repoQuickLink.value = response.body()!!.data
+                }
 
-        flashDeal()
+            })
     }
 
-    private fun flashDeal() {
-        DisposableManager.add(
-            RetrofitClient.reqApi.getFlashDeal()
-                .subscribeOn(Schedulers.io())
-                .subscribe(
-                    { flashDealResponse ->
-                        launchOnUI {
-                            _repoFlashDeal.value = flashDealResponse.data
-                        }
-                    },
-                    { error -> Log.d("Logger", "error->$error.message)") }
-                )
-        )
+    private fun getFlashDeal(){
+        RetrofitClient.reqApi.getFlashDeal()
+            .enqueue(object :Callback<ResponseData<List<FlashDealEntity>>>{
+                override fun onFailure(
+                    call: Call<ResponseData<List<FlashDealEntity>>>,
+                    t: Throwable
+                ) {
+                    Log.d("Logger", "error->$t.message)")
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseData<List<FlashDealEntity>>>,
+                    response: Response<ResponseData<List<FlashDealEntity>>>
+                ) {
+                    _repoFlashDeal.value = response.body()!!.data
+                }
+            } )
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        DisposableManager.dispose()
+    var processing: AtomicBoolean = AtomicBoolean(true)
+    fun getData(){
+        Executor.Builder()
+            .add(
+               Runnable {
+                   Log.d("Logger","TASK getBanner Start")
+                   getQuickLink()
+               }
+            )
+            .add(Runnable {
+                Log.d("Logger","TASK getQuickLink Start")
+                getBanner()
+            })
+            .callback(object : Executor.Callback{
+                override fun onComplete() {
+                    processing.set(false)
+                    getFlashDeal()
+                }
+            })
+            .build()
+            .execute()
     }
 }

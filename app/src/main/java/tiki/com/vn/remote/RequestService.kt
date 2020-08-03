@@ -2,6 +2,7 @@ package tiki.com.vn.remote
 
 import io.reactivex.Observable
 import io.reactivex.Single
+import retrofit2.Call
 import retrofit2.http.GET
 import tiki.com.vn.data.BannerEntity
 import tiki.com.vn.data.FlashDealEntity
@@ -19,11 +20,11 @@ interface RequestService {
 //    suspend fun getFlashDeal(): ResponseData<List<FlashDealEntity>>
 
     @GET("v2/home/banners/v2")
-    fun getBanner(): Observable<ResponseData<List<BannerEntity>>>
+    fun getBanner(): Call<ResponseData<List<BannerEntity>>>
 
     @GET("shopping/v2/widgets/quick_link")
-    fun getQuickLink(): Observable<ResponseData<List<List<QuickLinkEntity>>>>
+    fun getQuickLink(): Call<ResponseData<List<List<QuickLinkEntity>>>>
 
     @GET("v2/widget/deals/hot")
-    fun getFlashDeal(): Observable<ResponseData<List<FlashDealEntity>>>
+    fun getFlashDeal(): Call<ResponseData<List<FlashDealEntity>>>
 }

@@ -48,13 +48,17 @@ class MainActivity : BaseActivity() {
 
         mBannerAdapter.run {
             setOnClickListener(listenerBanner)
+            mMergeAdapter.addAdapter(0, mBannerAdapter)
         }
 
         mQuickLinkAdapter.run {
             setOnClickListener(listenerQuick)
+            mMergeAdapter.addAdapter(1, mQuickLinkAdapter)
         }
 
-        mFlashDealAdapter.run {}
+        mFlashDealAdapter.run {
+            mMergeAdapter.addAdapter(2, mFlashDealAdapter)
+        }
 
         recyclerHome.apply {
             setHasFixedSize(true)
@@ -71,7 +75,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData() {
 
-        viewModel.getDataParallely()
+        viewModel.getData()
     }
 
     override fun startObserve() {

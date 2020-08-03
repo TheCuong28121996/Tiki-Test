@@ -92,12 +92,12 @@ class MainViewModel : BaseViewModel() {
         Executor.Builder()
             .add(
                Runnable {
-                   Log.d("Logger","TASK getBanner Start")
+                   Log.d("Logger","TASK getQuickLink Start")
                    getQuickLink()
                }
             )
             .add(Runnable {
-                Log.d("Logger","TASK getQuickLink Start")
+                Log.d("Logger","TASK getBanner Start")
                 getBanner()
             })
             .callback(object : Executor.Callback{

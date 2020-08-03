@@ -3,12 +3,10 @@ package tiki.com.vn.utils
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.atomic.AtomicBoolean
 
-class Worker(task: Runnable, latch: CountDownLatch) : Runnable {
+class Worker(private val task: Runnable, private val latch: CountDownLatch) : Runnable {
 
-    private val started: AtomicBoolean
-    private val task: Runnable
-    private val thread: Thread
-    private val latch: CountDownLatch
+    private val started: AtomicBoolean = AtomicBoolean(false)
+    private val thread: Thread = Thread(this)
 
     fun start() {
         if (!started.getAndSet(true)) {
@@ -21,10 +19,4 @@ class Worker(task: Runnable, latch: CountDownLatch) : Runnable {
         latch.countDown()
     }
 
-    init {
-        this.latch = latch
-        this.task = task
-        started = AtomicBoolean(false)
-        thread = Thread(this)
-    }
 }

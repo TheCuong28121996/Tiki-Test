@@ -7,8 +7,8 @@ class Executor private constructor(
     tasks: List<Runnable>,
     private val callback: Callback?) : Thread() {
 
-    private val workers: ConcurrentLinkedQueue<Worker>
-    private val latch: CountDownLatch
+    private val workers: ConcurrentLinkedQueue<Worker> = ConcurrentLinkedQueue()
+    private val latch: CountDownLatch = CountDownLatch(tasks.size)
 
     fun execute() {
         start()
@@ -51,8 +51,6 @@ class Executor private constructor(
     }
 
     init {
-        workers = ConcurrentLinkedQueue()
-        latch = CountDownLatch(tasks.size)
         for (item in tasks) {
             workers.add(Worker(item, latch))
         }
